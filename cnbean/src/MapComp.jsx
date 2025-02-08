@@ -23,7 +23,7 @@ const MapComp = () => {
     loader.load().then(() => {
       if (mapRef.current) {
         new window.google.maps.Map(mapRef.current, {
-          center: { lat: 23, lng: 0 }, //the map position (can change this to make it new jersey)
+          center: { lat: 1, lng: 2 }, //the map position (can change this to make it new jersey)
           zoom: 3, 
           disableDefaultUI: true,
           gestureHandling: "greedy", // has zooms
