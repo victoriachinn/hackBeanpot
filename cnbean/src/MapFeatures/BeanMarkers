@@ -14,6 +14,10 @@ export const createBeanMarkers = (map) => {
       {
         position: { lat: 42.338868, lng: -71.0835003 }, 
         image: "/images/IMG_4041.webp",
+      },
+      {
+        position: { lat: 39.7290719 , lng: -75.1879254 }, 
+        image: "/images/IMG_4046.webp",
       }
     ];
   
