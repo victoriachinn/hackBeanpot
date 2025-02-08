@@ -29,8 +29,6 @@ function App() {
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
         <div>
-        <GoogleMap>
-        </GoogleMap>
       </div>
       </div>
       <p className="read-the-docs">
