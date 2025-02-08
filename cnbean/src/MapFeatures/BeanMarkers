@@ -1,0 +1,41 @@
+
+export const createBeanMarkers = (map) => {
+    if (!map || !window.google) return [];
+  
+    const markersData = [
+      {
+        position: { lat: 42.7950685, lng: -71.5788816 }, 
+        image: "/images/IMG_4038.webp",
+      },
+      {
+        position: { lat: 42.3317106, lng: -71.1000087 }, 
+        image: "/images/IMG_4039.webp",
+      },
+      {
+        position: { lat: 42.338868, lng: -71.0835003 }, 
+        image: "/images/IMG_4041.webp",
+      },
+      {
+        position: { lat: 39.7290719 , lng: -75.1879254 }, 
+        image: "/images/IMG_4046.webp",
+      }
+    ];
+  
+    const markers = markersData.map((data) => {
+      const icon = {
+        url: data.image,
+        scaledSize: new google.maps.Size(50, 50),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(25, 25),
+      };
+  
+      return new google.maps.Marker({
+        position: data.position,
+        map,
+        icon,
+      });
+    });
+  
+    return markers; 
+  };
+  
