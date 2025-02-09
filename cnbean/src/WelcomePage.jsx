@@ -108,6 +108,8 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'flex-start',  
     alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     minHeight: '100vh',
     minWidth: '100vw',
     backgroundColor: '#add8e6',
