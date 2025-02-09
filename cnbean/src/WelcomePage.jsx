@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";  // Import useNavigate for programmatic navigation
 import { Loader } from "@googlemaps/js-api-loader";
 import MapComp from "./MapComp";  // Import MapComp component
+import welcomeLogo from './assets/welcomeLogo.png'; 
+import cnbLogo from './assets/cnbLogo.png'; 
+
 
 // API Key
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -8,7 +12,9 @@ const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 export default function WelcomePage() {
   const [location, setLocation] = useState("");
   const [coordinates, setCoordinates] = useState(null);
+  const [showMap, setShowMap] = useState(false); // New state to control map visibility
   const autocompleteRef = useRef(null);
+  const navigate = useNavigate();  // Initialize useNavigate
 
   useEffect(() => {
     if (!apiKey) {
@@ -47,35 +53,116 @@ export default function WelcomePage() {
   const handleStart = () => {
     if (location && coordinates) {
       console.log("Starting with location:", location);
-      // Optionally display or pass coordinates to another component (e.g., MapComp)
+      // Navigate to HomePage with coordinates and location as state
+      navigate("/home", {
+        state: { location: location, coordinates: coordinates },
+      });
+      setShowMap(true);  // Show the map only when the button is clicked
     } else {
       alert("Please enter a valid location.");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-ora ge-100 p-6">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-96 text-center">
-        <h1 className="text-3xl font-bold text-white-800 mb-4">Welcome to Couch n Bean!</h1>
-        <p className="text-gray-600 mb-4">Enter a location to get started:</p>
+    <div style={styles.container}>
+      <img src={cnbLogo} alt="CNB Logo" style={styles.logo} /> {}
+      <img src={welcomeLogo} alt="Welcome Logo" style={styles.logoWelcome} />
 
+      
+      <div style={styles.card}>
+        <p style={styles.subtitle}>Enter a location to get started:</p>
+        
         <input
           type="text"
           ref={autocompleteRef}
           placeholder="Enter a location"
-          className="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          style={styles.input}
         />
 
         <button
           onClick={handleStart}
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+          style={styles.button}
         >
           Show Map
         </button>
-
-        {/* Show the map if coordinates are available */}
-        {coordinates && <MapComp coordinates={coordinates} />}
       </div>
+      
+      {/* Only show the map when showMap is true */}
+      {showMap && coordinates && (
+        <div style={styles.mapContainer}>
+          <MapComp coordinates={coordinates} />
+        </div>
+      )}
     </div>
   );
 }
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',  // Align items to the top
+    alignItems: 'center',
+    minHeight: '100vh',
+    minWidth: '100vw',
+    backgroundColor: '#add8e6',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  logoWelcome: {
+    width: '700px',
+    position: 'absolute',
+    top: '40%',
+    transform: 'translateY(-50%)',
+  },
+  logo: {
+    width: '500px',
+    position: 'absolute',
+    top: '20%',
+    transform: 'translateY(-50%)',
+  },
+  card: {
+    backgroundColor: 'white',
+    padding: '20px',
+    borderRadius: '10px',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+    textAlign: 'center',
+    width: '350px',
+    position: 'absolute',
+    top: '65%',  // Move card up to position it higher in the view
+    transform: 'translateY(-50%)',
+    zIndex: '1',
+  },
+  subtitle: {
+    marginBottom: '20px',
+    fontSize: '16px',
+    color: '#666',
+  },
+  input: {
+    width: '90%',
+    padding: '10px',
+    marginBottom: '10px',
+    borderRadius: '5px',
+    border: '1px solid black',
+    backgroundColor: 'white',
+    color: 'black',
+    fontSize: '16px',
+  },
+  button: {
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#add8e6',
+    color: 'black',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '16px',
+  },
+  mapContainer: {
+    width: '100%',
+    height: '50vh',  // Give the map container a height for visibility
+    position: 'absolute',
+    bottom: '0',
+    backgroundColor: '#ffffff',
+  },
+};
