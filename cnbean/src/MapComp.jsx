@@ -7,12 +7,13 @@ const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const MapComp = ({ coordinates }) => {
   const mapRef = useRef(null);
+
   useEffect(() => {
     if (!apiKey) {
       console.error("Google Maps API Key is missing!");
       return;
     }
-    
+
     // Loader to get the api 
     const loader = new Loader({
       apiKey: apiKey,
@@ -20,24 +21,33 @@ const MapComp = ({ coordinates }) => {
       libraries: ["places"],
     });
 
-    if(coordinates) {
-    loader.load().then(() => {
-      if (mapRef.current) {
-        const map = new window.google.maps.Map(mapRef.current, {
-          center: coordinates,
-          zoom: 12,
-          disableDefaultUI: true,
-          gestureHandling: "greedy",
-        });
-        createBeanMarkers(map); //adds the bean markers on the map
-      }
-    }).catch((error) => {
-      console.error("Error loading Map:", error);
-    });
-  }
+    if (coordinates) {
+      loader.load().then(() => {
+        if (mapRef.current) {
+          const map = new window.google.maps.Map(mapRef.current, {
+            center: coordinates,
+            zoom: 12,
+            disableDefaultUI: true,
+            gestureHandling: "greedy",
+          });
+          createBeanMarkers(map); // Adds the bean markers on the map
+        }
+      }).catch((error) => {
+        console.error("Error loading Map:", error);
+      });
+    }
   }, [coordinates]);
 
-  return <div ref={mapRef} style={{ width: "70vw", height: "600px", border: "1px solid black" }} />; //style
+  return (
+    <div
+      ref={mapRef}
+      style={{
+        width: "75vw", // Adjust width as needed
+        height: "600px", // Adjust height as needed
+        border: "1px solid black",
+      }}
+    />
+  );
 };
 
 export default MapComp;

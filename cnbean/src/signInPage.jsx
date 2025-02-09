@@ -49,8 +49,8 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '100vh', // Full viewport height
-    minWidth: '100vw', // Full viewport width
+    minHeight: '90vh', // Full viewport height
+    minWidth: '90vw', // Full viewport width
     backgroundColor: '#add8e6',
     position: 'relative',
     overflow: 'hidden', 

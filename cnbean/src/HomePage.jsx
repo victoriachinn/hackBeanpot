@@ -46,14 +46,14 @@ const styles = {
       justifyContent: 'center',
       alignItems: 'center',
       minHeight: '100vh',
-      minWidth: '100vw',
+      minWidth: '90vw',
       backgroundColor: '#add8e6',
       position: 'relative',
       overflow: 'hidden',
     },
     logo: {
       width: '300px',
-      marginTop: '80px',
+      marginTop: '120px',
     },
     card: {
       backgroundColor: 'white',
