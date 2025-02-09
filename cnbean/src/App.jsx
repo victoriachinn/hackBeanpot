@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import HomePage from './HomePage'
 import WelcomePage from './WelcomePage'
+import BeanPopup from './Popup/BeanPopup'
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <div>
         <WelcomePage/>
       {/* <HomePage/> */}
+      <BeanPopup/>
       </div>
     </>
   )

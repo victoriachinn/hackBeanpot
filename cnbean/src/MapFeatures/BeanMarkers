@@ -1,41 +1,104 @@
+import React from "react";
+import { createRoot } from "react-dom/client";
+import CouchListing from "../Popup/CouchListing"; 
 
 export const createBeanMarkers = (map) => {
     if (!map || !window.google) return [];
-  
+    
     const markersData = [
       {
-        position: { lat: 42.7950685, lng: -71.5788816 }, 
-        image: "/images/IMG_4038.webp",
+        position: { lat: 42.7950685, lng: -71.5788816 },
+        image: "/images/BoCouch.webp",
+        imageUrl: "/images/IMG_4038.webp",
+        details: {
+          title: "Live Free or Die on This Couch",
+          user: "Meredith Scott",
+          stats: [
+            { name: "Location:", value: "650 Columbus Ave, Boston, MA 02118" },
+            { name: "Availability:", value: "2/10/25 - 2/14/25" },
+            { name: "Couchability:", value: "High" },
+            { name: "Roommates:", value: "3" },
+            { name: "Pet:", value: "A chubby black cat named Bo" }],},
+        description: "This quality couch, courtesy of Northeastern Housing, comes with two decorative pillows, a mysterious stain, and a throw blanket themed with your favorite husky. The delightful ambiance from Columbus Ave guarantees a disrupted night’s sleep. Beans included.",
+        datePickers: [],
+        reserveButton: { text: "Couch Surf Now!", disabled: false },
       },
       {
-        position: { lat: 42.3317106, lng: -71.1000087 }, 
-        image: "/images/IMG_4039.webp",
+        position: { lat: 42.3317106, lng: -71.1000087 },
+        image: "/images/couch_meredith.png",
+        imageUrl: "/images/IMG_4039.webp",
+        details: {
+          title: "Boston Bean Couch",
+          user: "Jane Smith",
+          stats: [{ name: "Comfort", value: "8/10" }, { name: "Size", value: "2 Seater" }],
+        },
+        description: "Perfect for an overnight rest!",
+        datePickers: [],
+        reserveButton: { text: "Reserve Now", disabled: false },
       },
       {
-        position: { lat: 42.338868, lng: -71.0835003 }, 
-        image: "/images/IMG_4041.webp",
+        position: { lat: 42.338868, lng: -71.0835003 },
+        imageUrl: "/images/IMG_4041.webp",
+        details: {
+          title: "Downtown Comfort",
+          user: "Emily Johnson",
+          stats: [{ name: "Comfort", value: "9.5/10" }, { name: "Size", value: "4 Seater" }],
+        },
+        description: "Luxury couch in the city center!",
+        datePickers: [],
+        reserveButton: { text: "Reserve Now", disabled: false },
       },
       {
-        position: { lat: 39.7290719 , lng: -75.1879254 }, 
-        image: "/images/IMG_4046.webp",
+        position: { lat: 39.7290719 , lng: -75.1879254 },
+        imageUrl: "/images/IMG_4046.webp",
+        details: {
+          title: "Cozy Corner in New Jersey",
+          user: "Michael Brown",
+          stats: [{ name: "Comfort", value: "7.5/10" }, { name: "Size", value: "2 Seater" }],
+        },
+        description: "Great spot for a quick rest!",
+        datePickers: [],
+        reserveButton: { text: "Reserve Now", disabled: false },
       }
     ];
-  
+
+    const infoWindow = new google.maps.InfoWindow();
+
     const markers = markersData.map((data) => {
       const icon = {
-        url: data.image,
+        url: data.imageUrl,
         scaledSize: new google.maps.Size(50, 50),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(25, 25),
       };
-  
-      return new google.maps.Marker({
+
+      const marker = new google.maps.Marker({
         position: data.position,
         map,
         icon,
       });
+
+      const popupContainer = document.createElement("div");
+
+      const root = createRoot(popupContainer);
+      root.render(
+        React.createElement(CouchListing, {
+          imageUrl: data.image,
+          details: data.details,
+          description: data.description,
+          datePickers: data.datePickers,
+          reserveButton: data.reserveButton,
+        })
+      );
+
+      marker.addListener("click", () => {
+        infoWindow.setContent(popupContainer);
+        infoWindow.setPosition(data.position);
+        infoWindow.open(map, marker);
+      });
+
+      return marker;
     });
-  
-    return markers; 
-  };
-  
+
+    return markers;
+};
