@@ -21,13 +21,6 @@ const MapComp = ({ coordinates }) => {
     });
 
     if(coordinates) {
-    // const loader = new Loader({
-    //   apiKey: apiKey,
-    //   version: "weekly",
-    //   libraries: ["places"],
-    // });
-  
-
     loader.load().then(() => {
       if (mapRef.current) {
         const map = new window.google.maps.Map(mapRef.current, {
