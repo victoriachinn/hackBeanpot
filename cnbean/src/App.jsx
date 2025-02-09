@@ -1,20 +1,17 @@
-import { useState } from 'react'
-import './App.css'
-import HomePage from './HomePage'
-import WelcomePage from './WelcomePage'
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
+import SignInPage from './signInPage';  // Import SignInPage
+import WelcomePage from './WelcomePage'; // Import WelcomePage
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <WelcomePage/>
-      {/* <HomePage/> */}
-      </div>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignInPage />} /> {/* Sign In Page */}
+        <Route path="/welcome" element={<WelcomePage />} /> {/* Welcome Page */}
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
