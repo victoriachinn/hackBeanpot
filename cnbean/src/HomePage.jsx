@@ -1,60 +1,94 @@
-import React, { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { Loader } from "@googlemaps/js-api-loader";
-
-const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import welcomeLogo from './assets/cnbLogo.png'; // Use the same logo as on the WelcomePage
+import MapComp from "./MapComp";
+import "./css/index.css";
 
 export default function HomePage() {
-  const mapRef = useRef(null);
-  const markerRef = useRef(null);
   const location = useLocation();
   const { state } = location;
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!state || !state.coordinates) {
-      console.error("No location data found. Redirecting...");
-      return;
-    }
 
-    const { coordinates } = state;
+  if (!state || !state.coordinates) {
+    console.error("No location data found. Redirecting...");
+    return null;
+  }
 
-    if (!apiKey) {
-      console.error("Google Maps API Key is missing!");
-      return;
-    }
-
-    const loader = new Loader({
-      apiKey: apiKey,
-      version: "weekly",
-      libraries: ["places"],
-    });
-
-    loader.load().then(() => {
-      if (mapRef.current) {
-        const map = new window.google.maps.Map(mapRef.current, {
-          center: coordinates,
-          zoom: 12,
-        });
-
-        markerRef.current = new window.google.maps.Marker({
-          position: coordinates,
-          map: map,
-        });
-      }
-    }).catch((error) => console.error("Error loading Google Maps:", error));
-  }, [state]);
+  const handleBack = () => {
+    navigate("/welcome");
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">Home Page</h1>
-      <p className="text-gray-600 mb-4">
-        Viewing location: <strong>{state?.location || "Unknown"}</strong>
-      </p>
-
-      <div
-        ref={mapRef}
-        style={{ width: "80vw", height: "400px", border: "1px solid black" }}
-      />
+    <div style={styles.container}>
+      <img src={welcomeLogo} alt="CNB Logo" style={styles.logo} />
+      
+      <div style={styles.card}>
+        <p style={styles.subtitle}>
+          Viewing location: <strong>{state?.location || "Unknown"}</strong>
+        </p>
+        
+        <button onClick={handleBack} style={styles.button}>Back to Welcome</button>
+      </div>
+      <div style={{marginBottom:'5px'}}>
+      <MapComp coordinates={state.coordinates} />
+      </div>
     </div>
   );
 }
+
+
+const styles = {
+    
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '100vh',
+      minWidth: '90vw',
+      backgroundColor: '#add8e6',
+      position: 'relative',
+      overflow: 'hidden',
+    },
+    logo: {
+      width: '300px',
+      marginTop: '120px',
+    },
+    card: {
+      backgroundColor: 'white',
+      padding: '20px',
+      borderRadius: '10px',
+      boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+      textAlign: 'center',
+      width: '350px',
+      height: 'auto',
+      marginTop: '0px',
+      marginBottom: '30px',
+      zIndex: '1',
+    },
+    subtitle: {
+      marginBottom: '10px',
+      fontSize: '16px',
+      color: '#666',
+    },
+    button: {
+      width: '100%',
+      padding: '10px',
+      backgroundColor: '#add8e6',
+      color: 'black',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      fontSize: '16px',
+      marginTop: '10px',
+    },
+    map: {
+      width: "85vw",
+      height: "500px",
+      border: "1px solid black",
+      marginTop: '120px', 
+    }
+  };
+  
+  

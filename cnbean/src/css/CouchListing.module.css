@@ -1,0 +1,147 @@
+.appContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.couchlisting {
+  width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  background: white;
+  transition: transform 0.2s ease-in-out;
+  padding: 20px;
+  text-align: left;
+}
+
+.image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.title {
+  font-size: 24px;
+  margin: 0;
+  color: #00abb4;
+}
+
+.user {
+  font-size: 18px;
+  margin: 0;
+  color: #FB8F67;
+}
+
+.statName {
+  font-size: 14px;
+  margin: 0;
+  color: #FB8F67;
+  text-decoration: underline;
+}
+
+.statResult {
+  font-size: 14px;
+  margin: 0;
+  color: #666;
+}
+
+.statItem {
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 14px;
+  margin: 0;
+  padding-bottom: 5%;
+  color: #666;
+}
+
+.datePickerContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  margin-bottom: 10px;
+}
+
+.dateLabel {
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  margin: 5px;
+}
+
+.datePicker {
+  background-color: white;
+  color: #666;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100px;
+}
+
+.reserveButton {
+  cursor: pointer;
+  background-color: #00abb4;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+}
+
+.reserveButton:hover {
+  background-color: #a1dadd;
+}
+
+button:hover {
+  cursor: pointer;
+  outline: none;
+}
+
+.appContainer {
+  position: relative;
+}
+
+.imageWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.mainImage {
+  width: 100%; /* Adjust to fit the container */
+  height: auto;
+  display: block;
+}
+
+.overlayImage {
+  position: absolute;
+  top: 150px; /* Adjust this value to position the smaller image */
+  right: 10px; /* Adjust this value to position the smaller image */
+  width: 150px; /* Adjust size of overlay image */
+  height: auto;
+  z-index: 1;
+}
+
+.closeButton {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.closeIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+

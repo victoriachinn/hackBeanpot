@@ -1,41 +1,120 @@
+import React from "react";
+import { createRoot } from "react-dom/client";
+import CouchListing from "../Popup/CouchListing"; 
+import "../css/BeanMarkers.css";
 
 export const createBeanMarkers = (map) => {
     if (!map || !window.google) return [];
-  
+    
     const markersData = [
       {
-        position: { lat: 42.7950685, lng: -71.5788816 }, 
-        image: "/images/IMG_4038.webp",
+        position: { lat: 42.762275, lng: -71.59605499999999 },
+        image: "/images/BoCouch.webp",
+        imageUrl: "/images/IMG_4038.webp",
+        details: {
+          title: "Live Free or Die on This Couch",
+          user: "Meredith Scott",
+          stats: [
+            { name: "Location", value: "138 Silver Lake Rd, Hollis, NH 03049" },
+            { name: "Availability", value: "2/10/25 - 2/14/25" },
+            { name: "Couchability", value: "High" },
+            { name: "Roommates", value: "3" },
+            { name: "Pet", value: "A chubby black cat named Bo" }],},
+        description: "“This is the best couch I’ve ever used! Super squishy and I get a lot of pats on it!! I can’t really make a comparison since I don’t go outside but I think you’d guys understand as CS majors :3” - Bo",
+        datePickers: [],
+        reserveButton: { text: "Couch Surf Now!", disabled: false },
       },
       {
-        position: { lat: 42.3317106, lng: -71.1000087 }, 
-        image: "/images/IMG_4039.webp",
+        position: { lat: 42.3317106, lng: -71.1000087  },
+        image: "/images/victoria_couch.png",
+        imageUrl:  "/images/IMG_4039.webp",
+        details: {
+          title: "Your Friendly Neighborhood Frat",
+          user: "Victoria Chin - Official Neighbor of a Frat",
+          stats: [
+            { name: "Location", value: "1631 Tremont St Boston, MA 02120" },
+            { name: "Availability", value: "2/28/25 - 5/20/25" },
+            { name: "Couchability", value: "Super High" },
+            { name: "Roommates", value: "3" },
+            { name: "Pet", value: "None." }],},
+        description: "This couch is a great example of why you should leave Northeastern Housing and sign a lease in Mission Hill! This comfortable couch offers no mysterious stains and provides the true college experience of greek life. For those who are adventurous we encourage them to attend the Frat next door and crash here later!",
+        datePickers: [],
+        reserveButton: { text: "Couch Surf Now!", disabled: false },
       },
       {
-        position: { lat: 42.338868, lng: -71.0835003 }, 
-        image: "/images/IMG_4041.webp",
+        position: { lat: 42.338868, lng: -71.0835003 },
+        image: "/images/couch_meredith.png",
+        imageUrl: "/images/IMG_4041.webp",
+        details: {
+          title: "Peak Northeastern Housing",
+          user: "Lal Celikbilek",
+          stats: [
+            { name: "Location", value: "716 Columbus Ave. Bosotn, MA" },
+            { name: "Availability", value: "3/1/25 - 5/1/25" },
+            { name: "Couchability", value: "Medium" },
+            { name: "Roommates", value: "3" },
+            { name: "Pet", value: "None. Just a few dead plants :(" }],},
+        description: "This quality couch, courtesy of Northeastern Housing, comes with two decorative pillows, a mysterious stain, and a throw blanket themed with your favorite husky. The delightful ambiance from Columbus Ave guarantees a disrupted night’s sleep. Beans included.",
+        datePickers: [],
+        reserveButton: { text: "Couch Surf Now!", disabled: false },
       },
       {
-        position: { lat: 39.7290719 , lng: -75.1879254 }, 
-        image: "/images/IMG_4046.webp",
-      }
+        position: { lat: 39.7479794 , lng: -75.21864339999999 },
+        image: "/images/aspen_couch.png",
+        imageUrl: "/images/IMG_4046.webp",
+        details: {
+          title: "So South into NJ that even NEU students don't know it",
+          user: "Aspen Tabar",
+          stats: [
+            { name: "Location", value: "389 Wolfert Station Rd, Mullica Hill, NJ 08062" },
+            { name: "Availability", value: "5/1/25 - 6/1/25" },
+            { name: "Couchability", value: "High" },
+            { name: "Roommates", value: "4" },
+            { name: "Pet", value: "None" }],},
+        description: "This couch will allow Northeastern students to learn that there is more to NJ than being close to New York City. The couch gives you glimpse of what real NJ life looks like in this cute cabin like home. And no its not on the Jersey Shore but it is in the armpit of America. ",
+        datePickers: [],
+        reserveButton: { text: "Couch Surf Now!", disabled: false },
+      },
     ];
-  
+
+    const infoWindow = new google.maps.InfoWindow();
+
     const markers = markersData.map((data) => {
       const icon = {
-        url: data.image,
+        url: data.imageUrl,
         scaledSize: new google.maps.Size(50, 50),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(25, 25),
       };
-  
-      return new google.maps.Marker({
+
+      const marker = new google.maps.Marker({
         position: data.position,
         map,
         icon,
       });
+
+      const popupContainer = document.createElement("div");
+
+      const root = createRoot(popupContainer);
+      root.render(
+        React.createElement(CouchListing, {
+          imageUrl: data.image,
+          details: data.details,
+          description: data.description,
+          datePickers: data.datePickers,
+          reserveButton: data.reserveButton,
+        })
+      );
+
+      marker.addListener("click", () => {
+        popupContainer.classList.add("popup-container");
+        infoWindow.setContent(popupContainer);
+        infoWindow.setPosition(data.position);
+        infoWindow.open(map, marker);
+      });
+
+      return marker;
     });
-  
-    return markers; 
-  };
-  
+
+    return markers;
+};
