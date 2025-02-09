@@ -12,8 +12,6 @@ function App() {
     <>
       <div>
         <WelcomePage/>
-      {/* <HomePage/> */}
-      <BeanPopup/>
       </div>
     </>
   )
